@@ -12,17 +12,18 @@ FROM
     sales s;
 
 -- This statment finds the ID of the type of sale in both tables Sales and types sale
-SELECT 
-    s.vehicle_id,
-    s.customer_id,
-    s.sales_type_id,
-    SUM(s1.deposit) AS total_deposit
-FROM 
-    sales s
-JOIN 
-    sales s1 ON s.sales_type_id = s1.sales_type_id
-GROUP BY 
-    s.vehicle_id, s.customer_id, s.sales_type_id;
-   
+
+SELECT s.vehicle_id, s.customer_id, s.sales_type_id, 
+       (SELECT SUM(deposit) 
+        FROM sales
+        WHERE sales_type_id = s.sales_type_id) AS total_deposit
+FROM sales s;
    
 
+--Subqueries in the WHERE clause     
+
+--
+SELECT vehicle_id, customer_id, sales_type_id, price
+FROM sales
+WHERE
+price  > (SELECT AVG(price) FROM sales);
