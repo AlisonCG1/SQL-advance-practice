@@ -31,11 +31,15 @@ price  > (SELECT AVG(price) FROM sales);
 
 
 --Common Table Expressions (CTE) and how to use it as an alternative to subqueries.
-WITH
-   name_for_summary_data AS (SELECT Statement)
-   SELECT columns
-   FROM name_for_summary_data
-   WHERE conditions <=> (
-      SELECT column
-      FROM name_for_summary_data)
-   [ORDER BY columns]
+WITH average_price AS (
+   SELECT AVG(price) AS avg_price
+   FROM sales
+)
+SELECT *
+FROM sales
+WHERE price = (SELECT avg_price FROM average_price);
+
+   
+  
+   
+  --
