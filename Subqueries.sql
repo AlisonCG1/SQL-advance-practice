@@ -39,4 +39,28 @@ SELECT vehicle_id AS vehicle, customer_id, sales_type_id
 FROM sales
 WHERE price = (SELECT avg_price FROM average_price);
    
- --
+ 
+--Joint CTEs. 
+
+INSERT INTO oilchangelogs
+	(date_occured, vehicle_id)
+VALUES
+	('2020-01-09', 1),
+	('2021-10-30', 2),
+	('2019-02-20', 3),
+	('2022-03-17', 4)
+;
+
+WITH vehicles_needing_service AS
+(
+    SELECT
+        v.vehicle_id,
+        v.year_of_car,
+        v.miles_count,
+        TO_CHAR(o.date_occured, 'YYYY-MM-DD') date_of_last_change
+    FROM vehicles v
+    JOIN oilchangelogs o
+        ON v.vehicle_id = o.vehicle_id
+    WHERE o.date_occured < '2022-01-01'
+)
+
