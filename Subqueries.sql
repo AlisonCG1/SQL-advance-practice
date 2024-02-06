@@ -64,3 +64,22 @@ WITH vehicles_needing_service AS
     WHERE o.date_occured < '2022-01-01'
 )
 
+-- Another CTE that can be used to filter down the results to get the info about the last purchase only.
+select
+	vs.vehicle_id,
+	vs.miles_count,
+	s.purchase_date,
+	e.first_name || ' ' || e.last_name seller,
+	c.first_name || ' ' || c.last_name purchaser,
+	c.email
+from vehicles_needing_service vs -- Use the CTE
+join sales s
+	on s.vehicle_id  = vs.vehicle_id
+join employees e
+	on s.employee_id = e.employee_id
+join customers c
+	on s.customer_id = c.customer_id
+order by
+	vs.vehicle_id,
+	s.purchase_date desc
+;
