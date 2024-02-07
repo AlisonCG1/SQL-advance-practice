@@ -65,21 +65,31 @@ WITH vehicles_needing_service AS
 )
 
 -- Another CTE that can be used to filter down the results to get the info about the last purchase only.
-select
+SELECT 
 	vs.vehicle_id,
 	vs.miles_count,
 	s.purchase_date,
 	e.first_name || ' ' || e.last_name seller,
 	c.first_name || ' ' || c.last_name purchaser,
 	c.email
-from vehicles_needing_service vs -- Use the CTE
-join sales s
-	on s.vehicle_id  = vs.vehicle_id
-join employees e
-	on s.employee_id = e.employee_id
-join customers c
-	on s.customer_id = c.customer_id
-order by
+FROM vehicles_needing_service vs -- Use the CTE
+JOIN sales s
+	ON s.vehicle_id  = vs.vehicle_id
+JOIN employees e
+	ON  s.employee_id = e.employee_id
+JOIN  customers c
+	ON s.customer_id = c.customer_id
+ORDER BY
 	vs.vehicle_id,
-	s.purchase_date desc
+	s.purchase_date DESC
 ;
+
+-- For the top 5 dealerships, which employees made the most sales? 
+--*Note: to get a list of the top 5 employees with the associated dealership, 
+--you will need to use a Windows function (next chapter). 
+--There are other ways you can interpret this query to not return that strict of data.
+
+SELECT ID.dealership_id, ID.employee_id, dlsp.business_name
+FROM dealershipemployees AS ID
+JOIN dealerships AS dlsp
+	ON ID.dealership_id  = dlsp.dealership_id 
