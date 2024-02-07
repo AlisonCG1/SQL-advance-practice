@@ -89,7 +89,24 @@ ORDER BY
 --you will need to use a Windows function (next chapter). 
 --There are other ways you can interpret this query to not return that strict of data.
 
-SELECT ID.dealership_id, ID.employee_id, dlsp.business_name
-FROM dealershipemployees AS ID
-JOIN dealerships AS dlsp
-	ON ID.dealership_id  = dlsp.dealership_id 
+WITH CumulativeSales AS (
+    SELECT 
+        sale_id,
+        dealership_id,
+        SUM(price) OVER (PARTITION BY dealership_id ORDER BY sale_id) AS cumulative_sum
+    FROM sales
+)
+SELECT 
+    ID.dealership_id,
+    ID.employee_id,
+    dlsp.business_name,
+    cs.cumulative_sum
+FROM 
+    dealershipemployees AS ID
+JOIN 
+    dealerships AS dlsp ON ID.dealership_id = dlsp.dealership_id 
+JOIN 
+    CumulativeSales AS cs ON ID.dealership_id = cs.dealership_id 
+ORDER BY 
+    dlsp.business_name
+LIMIT 5;
