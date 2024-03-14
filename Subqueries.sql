@@ -110,3 +110,28 @@ JOIN
 ORDER BY 
     dlsp.business_name
 LIMIT 5;
+
+--For the top 5 dealerships, which vehicle models were the most popular in sales?
+
+WITH top5dealerships AS (
+SELECT	dealership_id, business_name
+FROM dealerships d 
+ORDER BY business_name DESC
+)
+
+SELECT s.sale_id, s.dealership_id, s
+FROM sales s 
+JOIN top5dealerships top
+	ON s.dealership_id = top.dealership_id
+JOIN vehicletypes
+
+SELECT *
+FROM sales 
+
+SELECT *
+FROM vehicles v 
+
+SELECT *
+FROM vehicletypes v 
+
+
