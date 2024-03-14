@@ -120,18 +120,20 @@ GROUP BY sales_type_id, vehicle_id, dealership_id
 ),
 
 topvehicles AS(
-SELECT v.vehicle_id, v.vehicle_id, vt.vehicle_type_id, vt.model, top.*
+SELECT v.vehicle_id, vt.vehicle_type_id, vt.model, top.*
 FROM vehicles v 
 JOIN vehicletypes vt
-	ON v.vehicle_id = vt.vehicle_type_id 
+	ON v.vehicle_type_id = vt.vehicle_type_id 
 JOIN topsales AS top
 	ON top.vehicle_id = v.vehicle_id
 
 )
 
-SELECT topv.*, d.dealership_id, d.business_name
+SELECT topv.dealership_id, d.dealership_id, d.business_name
 FROM dealerships d 
 JOIN topvehicles AS topv 
 	ON topv.dealership_id = d.dealership_id 
+ORDER BY sales DESC 
+LIMIT 5;
 
 
