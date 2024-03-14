@@ -113,25 +113,25 @@ LIMIT 5;
 
 --For the top 5 dealerships, which vehicle models were the most popular in sales?
 
-WITH top5dealerships AS (
-SELECT	dealership_id, business_name
-FROM dealerships d 
-ORDER BY business_name DESC
+WITH topsales AS (
+SELECT	SUM(sale_id) AS sales, sales_type_id, vehicle_id, dealership_id
+FROM sales 
+GROUP BY sales_type_id, vehicle_id, dealership_id
+),
+
+topvehicles AS(
+SELECT v.vehicle_id, v.vehicle_id, vt.vehicle_type_id, vt.model, top.*
+FROM vehicles v 
+JOIN vehicletypes vt
+	ON v.vehicle_id = vt.vehicle_type_id 
+JOIN topsales AS top
+	ON top.vehicle_id = v.vehicle_id
+
 )
 
-SELECT s.sale_id, s.dealership_id, s
-FROM sales s 
-JOIN top5dealerships top
-	ON s.dealership_id = top.dealership_id
-JOIN vehicletypes
-
-SELECT *
-FROM sales 
-
-SELECT *
-FROM vehicles v 
-
-SELECT *
-FROM vehicletypes v 
+SELECT topv.*, d.dealership_id, d.business_name
+FROM dealerships d 
+JOIN topvehicles AS topv 
+	ON topv.dealership_id = d.dealership_id 
 
 
