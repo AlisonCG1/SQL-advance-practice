@@ -112,6 +112,7 @@ ORDER BY
 LIMIT 5;
 
 --For the top 5 dealerships, which vehicle models were the most popular in sales?
+-- The first step is to create a CTE with the sales table
 
 WITH topsales AS (
 SELECT	SUM(sale_id) AS sales, sales_type_id, vehicle_id, dealership_id
@@ -119,6 +120,7 @@ FROM sales
 GROUP BY sales_type_id, vehicle_id, dealership_id
 ),
 
+-- Joining CTEs after creating a CTE on the vehicles table
 topvehicles AS(
 SELECT v.vehicle_id, vt.vehicle_type_id, vt.model, top.*
 FROM vehicles v 
@@ -136,4 +138,7 @@ JOIN topvehicles AS topv
 ORDER BY sales DESC 
 LIMIT 5;
 
+-- For the top 5 dealerships, were there more sales or leases?
 
+SELECT *
+FROM sales 
