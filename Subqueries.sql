@@ -140,5 +140,13 @@ LIMIT 5;
 
 -- For the top 5 dealerships, were there more sales or leases?
 
+-- For the top 5 dealerships, were there more sales or leases?
+
+WITH topleases AS
+
+
 SELECT *
-FROM sales 
+FROM sales ss
+INNER JOIN salestypes st
+ON ss.sales_type_id = st.sales_type_id 
+
