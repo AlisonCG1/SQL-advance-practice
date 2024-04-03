@@ -140,11 +140,14 @@ LIMIT 5;
 
 -- For the top 5 dealerships, were there more sales or leases?
 
--- For the top 5 dealerships, were there more sales or leases?
 
-WITH topleases AS
-
-
+WITH topleases AS(
+SELECT	SUM(d.dealership_id) AS dealership, d.business_name
+FROM dealerships d 
+JOIN sales s 
+ON d.dealership_id = s.dealership_id
+GROUP BY business_name
+)
 SELECT *
 FROM sales ss
 INNER JOIN salestypes st
