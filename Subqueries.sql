@@ -142,15 +142,16 @@ LIMIT 5;
 
 
 WITH topleases AS(
-SELECT	SUM(d.dealership_id) AS dealership, d.business_name, s.sales_type_id 
+SELECT	SUM(s.sale_id) AS sales, d.business_name, s.sales_type_id
 FROM dealerships d 
 JOIN sales s 
 ON d.dealership_id = s.dealership_id
-GROUP BY business_name, sales_type_id 
+GROUP BY business_name, sales_type_id
 )
-SELECT st.sales_type_name, tp.dealership, tp.business_name, tp.sales_type_id 
+SELECT st.sales_type_name, tp.business_name, tp.sales_type_id 
 FROM topleases tp
 INNER JOIN salestypes st
 ON tp.sales_type_id = st.sales_type_id 
-ODER BY 
+ORDER BY sales DESC
+LIMIT 5;
 
