@@ -155,3 +155,8 @@ ON tp.sales_type_id = st.sales_type_id
 ORDER BY sales DESC
 LIMIT 5;
 
+--For all used cars, which model is greatest in the inventory? Which make is greatest inventory? 
+
+SELECT *
+FROM vehicles 
+
