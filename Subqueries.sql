@@ -160,3 +160,5 @@ LIMIT 5;
 SELECT *
 FROM vehicles 
 
+SELECT *
+FROM vehicletypes v 
