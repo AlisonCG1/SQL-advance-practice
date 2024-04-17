@@ -158,7 +158,10 @@ LIMIT 5;
 --For all used cars, which model is greatest in the inventory? Which make is greatest inventory? 
 
 
-SELECT vt.model, v.is_new
+SELECT vt.model, COUNT(v.is_new) AS inventory 
 FROM vehicles v
 JOIN vehicletypes vt
 ON v.vehicle_type_id = vt.vehicle_type_id 
+WHERE v.is_new = FALSE 
+GROUP BY vt.model 
+ORDER BY inventory DESC;
