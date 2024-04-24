@@ -10,13 +10,15 @@ FROM sales
 SELECT *
 FROM vehicletypes vt
 
+
 WITH popular_vehicle AS 
 ( 
-	SELECT vt.make, s.sale_id, s.price
-	FROM vehicletypes vt
-	INNER JOIN vehicles v 
-	ON v.vehicle_type_id = vt.vehicle_type_id
-	INNER JOIN sales s 
-	ON v.vehicle_id = s.vehicle_id
-
+    SELECT vt.make, SUM(s.price) AS total_sales
+    FROM vehicletypes vt
+    INNER JOIN vehicles v ON v.vehicle_type_id = vt.vehicle_type_id
+    INNER JOIN sales s ON v.vehicle_id = s.vehicle_id
+    GROUP BY vt.make
 )
+
+SELECT pv.make, RANK() OVER (ORDER BY pv.total_sales DESC) AS sales_rank
+FROM popular_vehicle AS pv;
